@@ -1,5 +1,6 @@
 package com.arnouddev89.storecar_api.controller;
 
+import com.arnouddev89.storecar_api.dto.CarPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,7 +14,7 @@ import java.util.List;
 public class CarPostController {
 
     @Autowired
-    private CarPostController carPostController;
+    //private CarPostController carPostController;
 
     @GetMapping("/cars")
     public ResponseEntity<List<CarPostDTO>> getCarSales() {
