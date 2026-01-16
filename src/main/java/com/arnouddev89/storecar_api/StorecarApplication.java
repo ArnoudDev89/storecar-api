@@ -4,10 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StorecarApiApplication {
+public class StorecarApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StorecarApiApplication.class, args);
+	public static void main(String[] args) {SpringApplication.run(StorecarApplication.class, args);
 	}
-
 }
