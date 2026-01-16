@@ -18,24 +18,19 @@ public class CarPostController {
 
     @GetMapping("/cars")
     public ResponseEntity<List<CarPostDTO>> getCarSales() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(
-                carPostService.getCarSales()
-        );
+        return ResponseEntity.status(HttpStatus.FOUND).body(carPostService.getCarSales());
     }
 
-/*    @PutMapping("/car/{id}")
+    @PutMapping("/car/{id}")
     public ResponseEntity changeCarSale (@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
-        carPostService.changeCarSale(carPostDTO, Long.valueof(id));
+        carPostService.changeCarSale(carPostDTO, Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/car/{id}")
     public ResponseEntity deleteCarSale(@PathVariable("id") String id) {
-        carPostController.deleteCarSale(Long.valueOf(id));
+        carPostService.removeCarSale(Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-}
-
- */
 }
