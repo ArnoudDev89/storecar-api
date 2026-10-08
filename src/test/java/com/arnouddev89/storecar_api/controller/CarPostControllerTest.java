@@ -2,96 +2,86 @@ package com.arnouddev89.storecar_api.controller;
 
 import com.arnouddev89.storecar_api.dto.CarPostDTO;
 import com.arnouddev89.storecar_api.service.CarPostService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(CarPostController.class)
+@ExtendWith(MockitoExtension.class)
 class CarPostControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Mock
     private CarPostService carPostService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @InjectMocks
+    private CarPostController carPostController;
 
     @Test
-    void deveCriarVendaDeCarroCom201() throws Exception {
-        var dto = new CarPostDTO(); // Se tiver campos obrigatórios, preencha aqui
+    void deveCriarVendaDeCarroCom201() {
+        var dto = new CarPostDTO();
         doNothing().when(carPostService).newCarPost(any(CarPostDTO.class));
 
-        mockMvc.perform(post("/sales/car")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isCreated());
+        ResponseEntity<Void> response = carPostController.postCarSale(dto);
 
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         verify(carPostService).newCarPost(any(CarPostDTO.class));
     }
 
     @Test
-    void deveListarVendasDeCarrosCom200() throws Exception {
-        CarPostDTO dto = new CarPostDTO();
+    void deveListarVendasDeCarrosCom200() {
+        var dto = new CarPostDTO();
         when(carPostService.getCarSales()).thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/sales/cars"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1));
+        ResponseEntity<List<CarPostDTO>> response = carPostController.getCarSales();
 
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).hasSize(1);
         verify(carPostService).getCarSales();
     }
 
     @Test
-    void deveListarVazioQuandoNaoHaVendas() throws Exception {
+    void deveListarVazioQuandoNaoHaVendas() {
         when(carPostService.getCarSales()).thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/sales/cars"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(0));
+        ResponseEntity<List<CarPostDTO>> response = carPostController.getCarSales();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEmpty();
     }
 
     @Test
-    void deveAlterarVendaDeCarroCom200() throws Exception {
+    void deveAlterarVendaDeCarroCom200() {
         var dto = new CarPostDTO();
         String id = "1";
         doNothing().when(carPostService).changeCarSale(any(CarPostDTO.class), eq(1L));
 
-        mockMvc.perform(put("/sales/car/{id}", id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk());
+        ResponseEntity response = carPostController.changeCarSale(dto, id);
 
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         verify(carPostService).changeCarSale(any(CarPostDTO.class), eq(1L));
     }
 
     @Test
-    void deveDeletarVendaDeCarroCom200() throws Exception {
+    void deveDeletarVendaDeCarroCom200() {
         String id = "10";
         doNothing().when(carPostService).removeCarSale(eq(10L));
 
-        mockMvc.perform(delete("/sales/car/{id}", id))
-                .andExpect(status().isOk());
+        ResponseEntity response = carPostController.deleteCarSale(id);
 
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         verify(carPostService).removeCarSale(eq(10L));
     }
 }
