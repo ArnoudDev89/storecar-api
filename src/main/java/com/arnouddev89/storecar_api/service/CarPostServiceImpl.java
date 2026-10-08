@@ -46,24 +46,19 @@ public class CarPostServiceImpl implements CarPostService {
             item.setEngineVersion(carPostDTO.getEngineVersion());
             item.setModel(carPostDTO.getModel());
             carPostRepository.save(item);
+
         }, () -> {
-            throw new NoSuchElementException("Carro não encontrado com o ID: " + postId);
+            throw new NoSuchElementException();
         });
+
     }
 
     @Override
     public void removeCarSale(Long postId) {
         carPostRepository.deleteById(postId);
     }
-
-    @Override
-    public void newCarPost(CarPostDTO carPostDTO) {
-        // Agora o POST realmente salva no banco chamando o mapeamento e o repositório
-        CarPostEntity carPostEntity = mapCarDtoToEntity(carPostDTO);
-        carPostRepository.save(carPostEntity);
-    }
-
     private CarPostDTO mapCarEntityToDTO(CarPostEntity carPostEntity) {
+
         return CarPostDTO.builder()
                 .brand(carPostEntity.getBrand())
                 .city(carPostEntity.getCity())
@@ -71,21 +66,18 @@ public class CarPostServiceImpl implements CarPostService {
                 .description(carPostEntity.getDescription())
                 .engineVersion(carPostEntity.getEngineVersion())
                 .createdDate(carPostEntity.getCreatedDate())
-                .ownerName(carPostEntity.getOwnerPost() != null ? carPostEntity.getOwnerPost().getName() : null)
+                .ownerName(carPostEntity.getOwnerPost().getName())
                 .price(carPostEntity.getPrice()).build();
     }
 
     private CarPostEntity mapCarDtoToEntity(CarPostDTO carPostDTO) {
         CarPostEntity carPostEntity = new CarPostEntity();
-
-        if (carPostDTO.getOwnerId() != null) {
-            ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> {
-                carPostEntity.setOwnerPost(item);
-                carPostEntity.setContact(item.getContactNumber());
-            }, () -> {
-                throw new RuntimeException("Owner não encontrado com ID: " + carPostDTO.getOwnerId());
-            });
-        }
+        ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> {
+            carPostEntity.setOwnerPost(item);
+            carPostEntity.setContact(item.getContactNumber());
+        }, () -> {
+            throw new RuntimeException();
+        });
 
         carPostEntity.setModel(carPostDTO.getModel());
         carPostEntity.setBrand(carPostDTO.getBrand());

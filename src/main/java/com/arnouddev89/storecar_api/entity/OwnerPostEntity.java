@@ -13,7 +13,6 @@ public class OwnerPostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
 
     @Column(name = "owner_type")

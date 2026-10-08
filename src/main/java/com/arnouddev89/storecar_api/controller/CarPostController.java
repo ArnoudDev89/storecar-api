@@ -16,15 +16,9 @@ public class CarPostController {
     @Autowired
     private CarPostService carPostService;
 
-    @PostMapping("/car")
-    public ResponseEntity<Void> postCarSale(@RequestBody CarPostDTO carPostDTO) {
-        carPostService.newCarPost(carPostDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     @GetMapping("/cars")
     public ResponseEntity<List<CarPostDTO>> getCarSales() {
-        return ResponseEntity.ok(carPostService.getCarSales());
+        return ResponseEntity.status(HttpStatus.FOUND).body(carPostService.getCarSales());
     }
 
     @PutMapping("/car/{id}")
