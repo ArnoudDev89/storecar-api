@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaConsumerMessage {
 
-    private final Logger LOG = (Logger) LoggerFactory.getLogger(KafkaConsumerMessage.class);
+    private final Logger LOG = LoggerFactory.getLogger(KafkaConsumerMessage.class);
 
     @Autowired
     private CarPostService carPostService;
 
     @KafkaListener(topics = "car-post-topic", groupId = "store-posts-group")
-    public void listening(CarPostDTO carPost) {
+    public void listening(CarPostDTO carPost){
 
-        LOG.info("CREATED NEW CAR - Received Car Post Information: {}", carPost);
+        LOG.info("CAR STORE - Received Car Post Information: {}", carPost);
         carPostService.newPostDetails(carPost);
 
     }

@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+@Entity
+@Table(name ="car_post")
 @Data
 @NoArgsConstructor
-@Entity
-@Table(name = "car_post")
 public class CarPostEntity {
 
     @Id
