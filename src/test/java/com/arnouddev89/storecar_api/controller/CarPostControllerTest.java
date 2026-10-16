@@ -66,22 +66,22 @@ class CarPostControllerTest {
     void deveAlterarVendaDeCarroCom200() {
         var dto = new CarPostDTO();
         String id = "1";
-        doNothing().when(carPostService).changeCarSale(any(CarPostDTO.class), eq(1L));
+        doNothing().when(carPostService).changeCarSale(any(CarPostDTO.class), eq("1")); // CORRIGIDO - era eq(1L)
 
         ResponseEntity response = carPostController.changeCarSale(dto, id);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        verify(carPostService).changeCarSale(any(CarPostDTO.class), eq(1L));
+        verify(carPostService).changeCarSale(any(CarPostDTO.class), eq("1")); // CORRIGIDO
     }
 
     @Test
     void deveDeletarVendaDeCarroCom200() {
         String id = "10";
-        doNothing().when(carPostService).removeCarSale(eq(10L));
+        doNothing().when(carPostService).removeCarSale(eq("10")); // CORRIGIDO - era eq(10L)
 
         ResponseEntity response = carPostController.deleteCarSale(id);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        verify(carPostService).removeCarSale(eq(10L));
+        verify(carPostService).removeCarSale(eq("10")); // CORRIGIDO
     }
 }

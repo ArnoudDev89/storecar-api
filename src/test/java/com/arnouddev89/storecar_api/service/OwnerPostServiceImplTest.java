@@ -32,7 +32,7 @@ class OwnerPostServiceImplTest {
         dto.setContactNumber("61999999999");
 
         OwnerPostEntity saved = new OwnerPostEntity();
-        saved.setId(1L);
+        saved.setId("1"); // CORRIGIDO - era 1L
         saved.setName("Arnoud");
 
         when(ownerPostRepository.save(any(OwnerPostEntity.class))).thenReturn(saved);
