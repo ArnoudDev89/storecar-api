@@ -1,45 +1,48 @@
 package com.arnouddev89.storecar_api.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-
-@Entity
-@Table(name ="car_post")
+// ALTERADO PARA MONGODB
+@Document(collection = "car_post") // ANTES: @Entity @Table(name="car_post")
 @Data
 @NoArgsConstructor
 public class CarPostEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    // ALTERADO PARA MONGODB - String no lugar de Long + sem @GeneratedValue (Mongo gera ObjectId sozinho)
+    private String id;
 
-    @Column(name = "car_model")
+    @Field("car_model") // ANTES: @Column(name = "car_model")
     private String model;
 
-    @Column(name = "car_brand")
+    @Field("car_brand")
     private String brand;
 
-    @Column(name = "car_price")
+    @Field("car_price")
     private Double price;
 
-    @Column(name = "car_description")
+    @Field("car_description")
     private String description;
 
-    @Column(name = "car_engine")
+    @Field("car_engine")
     private String engineVersion;
 
-    @Column(name = "car_city")
+    @Field("car_city")
     private String city;
 
-    @Column(name = "car_created")
+    @Field("car_created")
     private String createdDate;
 
-    @Column(name = "car_post_contact")
+    @Field("car_post_contact")
     private String contact;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_post_id", nullable = false, referencedColumnName = "id")
+    // ALTERADO PARA MONGODB - @ManyToOne + @JoinColumn viram @DBRef
+    // Isso cria uma referência pra outra collection igual JOIN fazia
+    @DBRef
     private OwnerPostEntity ownerPost;
 }

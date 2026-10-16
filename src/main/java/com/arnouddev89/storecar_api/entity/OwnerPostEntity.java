@@ -1,24 +1,26 @@
 package com.arnouddev89.storecar_api.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
+// ALTERADO PARA MONGODB
+@Document(collection = "owner_post") // ANTES: @Entity @Table(name = "owner_post")
 @Data
 @NoArgsConstructor
-@Table(name = "owner_post")
 public class OwnerPostEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    // ALTERADO: String + sem @GeneratedValue
+    private String id;
 
     private String name;
 
-    @Column(name = "owner_type")
+    @Field("owner_type") // ANTES: @Column(name = "owner_type")
     private String type;
 
-    @Column(name = "owner_contact")
+    @Field("owner_contact")
     private String contactNumber;
 }
