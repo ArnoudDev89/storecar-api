@@ -52,7 +52,7 @@ public class CarPostServiceImpl implements CarPostService {
     }
 
     @Override
-    public void removeCarSale(String postId) { // CORRIGIDO - era Long
+    public void removeCarSale(String postId) {
         carPostRepository.deleteById(postId);
     }
 
@@ -60,6 +60,15 @@ public class CarPostServiceImpl implements CarPostService {
     public void newCarPost(CarPostDTO carPostDTO) {
         CarPostEntity carPostEntity = mapCarDtoToEntity(carPostDTO);
         carPostRepository.save(carPostEntity);
+    }
+
+    @Override
+    public void newCarPostList(List<CarPostDTO> carPostDTOs) {
+        List<CarPostEntity> entities = carPostDTOs.stream()
+                .map(this::mapCarDtoToEntity)
+                .toList();
+
+        carPostRepository.saveAll(entities);
     }
 
     private CarPostDTO mapCarEntityToDTO(CarPostEntity carPostEntity) {
@@ -77,12 +86,11 @@ public class CarPostServiceImpl implements CarPostService {
     private CarPostEntity mapCarDtoToEntity(CarPostDTO carPostDTO) {
         CarPostEntity carPostEntity = new CarPostEntity();
 
-        if (carPostDTO.getOwnerId() != null) {
-            ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> { // agora ownerId tem que ser String no DTO
+        // CORRIGIDO - Não lança mais 500 se ownerId não existir, só salva sem owner
+        if (carPostDTO.getOwnerId() != null && !carPostDTO.getOwnerId().isBlank()) {
+            ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresent(item -> {
                 carPostEntity.setOwnerPost(item);
                 carPostEntity.setContact(item.getContactNumber());
-            }, () -> {
-                throw new RuntimeException("Owner não encontrado com ID: " + carPostDTO.getOwnerId());
             });
         }
 
