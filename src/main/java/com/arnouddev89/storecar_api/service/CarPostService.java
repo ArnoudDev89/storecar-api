@@ -17,4 +17,6 @@ public interface CarPostService {
     void removeCarSale(String postId); // CORRIGIDO - era Long
 
     void newCarPost(CarPostDTO carPostDTO);
+
+    void newCarPostList(List<CarPostDTO> carPostDTOs);
 }

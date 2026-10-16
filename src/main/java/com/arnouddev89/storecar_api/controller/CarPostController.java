@@ -22,6 +22,12 @@ public class CarPostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/car-list")
+    public ResponseEntity<Void> postCarSales(@RequestBody List<CarPostDTO> carPostDTOs) {
+        carPostService.newCarPostList(carPostDTOs);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @GetMapping("/cars")
     public ResponseEntity<List<CarPostDTO>> getCarSales() {
         return ResponseEntity.ok(carPostService.getCarSales());
@@ -35,8 +41,7 @@ public class CarPostController {
 
     @DeleteMapping("/car/{id}")
     public ResponseEntity deleteCarSale(@PathVariable("id") String id) {
-        carPostService.removeCarSale(id); // CORRIGIDO - era Long.valueOf(id)
+        carPostService.removeCarSale(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
