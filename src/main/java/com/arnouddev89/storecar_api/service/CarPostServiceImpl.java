@@ -37,7 +37,7 @@ public class CarPostServiceImpl implements CarPostService {
     }
 
     @Override
-    public void changeCarSale(CarPostDTO carPostDTO, Long postId) {
+    public void changeCarSale(CarPostDTO carPostDTO, String postId) {
         carPostRepository.findById(postId).ifPresentOrElse(item -> {
             item.setDescription(carPostDTO.getDescription());
             item.setContact(carPostDTO.getContact());
@@ -52,13 +52,12 @@ public class CarPostServiceImpl implements CarPostService {
     }
 
     @Override
-    public void removeCarSale(Long postId) {
+    public void removeCarSale(String postId) { // CORRIGIDO - era Long
         carPostRepository.deleteById(postId);
     }
 
     @Override
     public void newCarPost(CarPostDTO carPostDTO) {
-        // Agora o POST realmente salva no banco chamando o mapeamento e o repositório
         CarPostEntity carPostEntity = mapCarDtoToEntity(carPostDTO);
         carPostRepository.save(carPostEntity);
     }
@@ -79,7 +78,7 @@ public class CarPostServiceImpl implements CarPostService {
         CarPostEntity carPostEntity = new CarPostEntity();
 
         if (carPostDTO.getOwnerId() != null) {
-            ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> {
+            ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> { // agora ownerId tem que ser String no DTO
                 carPostEntity.setOwnerPost(item);
                 carPostEntity.setContact(item.getContactNumber());
             }, () -> {

@@ -12,9 +12,9 @@ public interface CarPostService {
 
     List<CarPostDTO> getCarSales();
 
-    void changeCarSale(CarPostDTO carPostDTO, Long postId);
+    void changeCarSale(CarPostDTO carPostDTO, String postId); // CORRIGIDO - era Long
 
-    void removeCarSale(Long postId);
+    void removeCarSale(String postId); // CORRIGIDO - era Long
 
     void newCarPost(CarPostDTO carPostDTO);
 }

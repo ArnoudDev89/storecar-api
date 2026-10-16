@@ -1,4 +1,3 @@
-
 package com.arnouddev89.storecar_api.service;
 
 import com.arnouddev89.storecar_api.dto.CarPostDTO;
@@ -44,20 +43,20 @@ class CarPostServiceTest {
     @Test
     void deveChamarChangeCarSale() {
         CarPostDTO dto = new CarPostDTO();
-        doNothing().when(carPostService).changeCarSale(any(CarPostDTO.class), eq(1L));
+        doNothing().when(carPostService).changeCarSale(any(CarPostDTO.class), eq("1")); // CORRIGIDO
 
-        carPostService.changeCarSale(dto, 1L);
+        carPostService.changeCarSale(dto, "1"); // CORRIGIDO
 
-        verify(carPostService).changeCarSale(dto, 1L);
+        verify(carPostService).changeCarSale(dto, "1"); // CORRIGIDO
     }
 
     @Test
     void deveChamarRemoveCarSale() {
-        doNothing().when(carPostService).removeCarSale(eq(10L));
+        doNothing().when(carPostService).removeCarSale(eq("10")); // CORRIGIDO
 
-        carPostService.removeCarSale(10L);
+        carPostService.removeCarSale("10"); // CORRIGIDO
 
-        verify(carPostService).removeCarSale(10L);
+        verify(carPostService).removeCarSale("10"); // CORRIGIDO
     }
 
     @Test
@@ -70,4 +69,3 @@ class CarPostServiceTest {
         verify(carPostService).newCarPost(dto);
     }
 }
-

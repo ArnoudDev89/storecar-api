@@ -10,11 +10,11 @@ class CarPostEntityTest {
     void deveCriarEntityComGettersESetters() {
         CarPostEntity entity = new CarPostEntity();
         OwnerPostEntity owner = new OwnerPostEntity();
-        owner.setId(1L);
+        owner.setId("1"); // CORRIGIDO
 
-        entity.setId(10L);
+        entity.setId("10"); // CORRIGIDO
         entity.setModel("Civic");
-        entity.setBrand("Honda");
+        entity.setBrand("【entity-Honda¦canonical_name=Honda】");
         entity.setPrice(95000.0);
         entity.setDescription("Bem conservado");
         entity.setEngineVersion("2.0 Flex");
@@ -23,9 +23,9 @@ class CarPostEntityTest {
         entity.setContact("61999999999");
         entity.setOwnerPost(owner);
 
-        assertThat(entity.getId()).isEqualTo(10L);
+        assertThat(entity.getId()).isEqualTo("10"); // CORRIGIDO
         assertThat(entity.getModel()).isEqualTo("Civic");
-        assertThat(entity.getBrand()).isEqualTo("Honda");
+        assertThat(entity.getBrand()).isEqualTo("【entity-Honda¦canonical_name=Honda】");
         assertThat(entity.getPrice()).isEqualTo(95000.0);
         assertThat(entity.getDescription()).isEqualTo("Bem conservado");
         assertThat(entity.getEngineVersion()).isEqualTo("2.0 Flex");
@@ -33,17 +33,17 @@ class CarPostEntityTest {
         assertThat(entity.getCreatedDate()).isEqualTo("2026-01-01");
         assertThat(entity.getContact()).isEqualTo("61999999999");
         assertThat(entity.getOwnerPost()).isEqualTo(owner);
-        assertThat(entity.getOwnerPost().getId()).isEqualTo(1L);
+        assertThat(entity.getOwnerPost().getId()).isEqualTo("1"); // CORRIGIDO
     }
 
     @Test
     void deveTestarEqualsEHashCodeGeradosPeloLombok() {
         CarPostEntity entity1 = new CarPostEntity();
-        entity1.setId(1L);
+        entity1.setId("1"); // CORRIGIDO
         entity1.setModel("Civic");
 
         CarPostEntity entity2 = new CarPostEntity();
-        entity2.setId(1L);
+        entity2.setId("1"); // CORRIGIDO
         entity2.setModel("Civic");
 
         assertThat(entity1).isEqualTo(entity2);

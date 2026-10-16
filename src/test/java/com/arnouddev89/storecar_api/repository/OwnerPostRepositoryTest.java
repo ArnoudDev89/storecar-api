@@ -22,7 +22,7 @@ class OwnerPostRepositoryTest {
     @Test
     void deveSalvarOwner() {
         OwnerPostEntity entity = new OwnerPostEntity();
-        entity.setId(1L);
+        entity.setId("1"); // CORRIGIDO
         entity.setName("Arnoud");
         entity.setType("PF");
         entity.setContactNumber("61999999999");
@@ -32,7 +32,7 @@ class OwnerPostRepositoryTest {
         OwnerPostEntity saved = ownerPostRepository.save(entity);
 
         assertThat(saved).isNotNull();
-        assertThat(saved.getId()).isEqualTo(1L);
+        assertThat(saved.getId()).isEqualTo("1"); // CORRIGIDO
         assertThat(saved.getName()).isEqualTo("Arnoud");
         verify(ownerPostRepository).save(entity);
     }
@@ -40,12 +40,12 @@ class OwnerPostRepositoryTest {
     @Test
     void deveBuscarPorId() {
         OwnerPostEntity entity = new OwnerPostEntity();
-        entity.setId(1L);
+        entity.setId("1"); // CORRIGIDO
         entity.setName("Maria");
 
-        when(ownerPostRepository.findById(1L)).thenReturn(Optional.of(entity));
+        when(ownerPostRepository.findById("1")).thenReturn(Optional.of(entity)); // CORRIGIDO
 
-        var found = ownerPostRepository.findById(1L);
+        var found = ownerPostRepository.findById("1"); // CORRIGIDO
 
         assertThat(found).isPresent();
         assertThat(found.get().getName()).isEqualTo("Maria");
@@ -62,10 +62,10 @@ class OwnerPostRepositoryTest {
 
     @Test
     void deveDeletarPorId() {
-        doNothing().when(ownerPostRepository).deleteById(1L);
+        doNothing().when(ownerPostRepository).deleteById("1"); // CORRIGIDO
 
-        ownerPostRepository.deleteById(1L);
+        ownerPostRepository.deleteById("1"); // CORRIGIDO
 
-        verify(ownerPostRepository).deleteById(1L);
+        verify(ownerPostRepository).deleteById("1"); // CORRIGIDO
     }
 }

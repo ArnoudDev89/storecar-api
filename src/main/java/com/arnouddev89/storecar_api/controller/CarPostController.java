@@ -29,13 +29,13 @@ public class CarPostController {
 
     @PutMapping("/car/{id}")
     public ResponseEntity changeCarSale (@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
-        carPostService.changeCarSale(carPostDTO, Long.valueOf(id));
+        carPostService.changeCarSale(carPostDTO, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/car/{id}")
     public ResponseEntity deleteCarSale(@PathVariable("id") String id) {
-        carPostService.removeCarSale(Long.valueOf(id));
+        carPostService.removeCarSale(id); // CORRIGIDO - era Long.valueOf(id)
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
